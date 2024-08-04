@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div>
+      <h1>Welcome to oxyproxy</h1>
+      <h5>Create a new project or open an exisiting</h5>
+      <div id="div">
+        <button onclick="change()" id="btn" style="--bg-color: #4ccf38">
+          <span id="span">add</span>
+        </button>
+        <button onclick="changeAgain()" style="--bg-color: #1a54c4">
+          <span id="span2">open</span>
+        </button>
+      </div>
+    </div>
+    <style>
+      h1 {
+        text-align: center;
+        margin-top: 100px;
+      }
+      h5 {
+        margin-top: 15px;
+        text-align: center;
+        font-weight: normal;
+        letter-spacing: 0.8px;
+        word-spacing: 1.6px;
+        color: #7e7e7e;
+      }
+      #div {
+        display: flex;
+        width: 200px;
+        margin: 60px auto;
+        justify-content: space-between;
+      }
+      button {
+        border: none;
+        outline: none;
+        width: 72px;
+        aspect-ratio: 1;
+        background-color: var(--bg-color);
+        border-radius: 14px;
+      }
+    </style>
+  </body>
+  <script src="script.js"></script>
+</html>

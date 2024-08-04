@@ -1,0 +1,18 @@
+{
+    "files.associations": {
+        "winsock2.h": "c",
+        "windows.h": "c",
+        "stat.h": "c",
+        "io.h": "c",
+        "stdio.h": "c",
+        "string.h": "c",
+        "headerutils.h": "c",
+        "stdlib.h": "c",
+        "ssl2.h": "c",
+        "macros.h": "c",
+        "ssl3.h": "c",
+        "opensslconf.h": "c",
+        "ssl.h": "c",
+        "err.h": "c"
+    }
+}

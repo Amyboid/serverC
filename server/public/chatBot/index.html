@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/brython@3.12.3/brython.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/brython@3.12.3/brython_stdlib.js"
+    ></script>
+    <style>
+        *{
+            font-family: sans-serif;
+        }
+      #open-chat {
+        width: 50px;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        outline: none;
+        border: none;
+        background-color: #0e0d4c;
+        font-size: 1.2rem;
+        position: fixed;
+        bottom: 40px;
+        right: 40px;
+      }
+      #chat {
+        position: fixed;
+        bottom: 100px;
+        right: 40px;
+        width: 300px;
+        height: 400px;
+        background-color: #ff037d;
+        border-radius: 20px;
+        /* display: none; */
+      }
+      #chat input {
+        width: 60%;
+        position: absolute;
+        bottom: 20px;
+        left: 5%;
+        padding: 10px;
+        border: none;
+        border-radius: 10px;
+      }
+      #send {
+        width: 20%;
+        padding: 10px;
+        border-radius: 10px;
+        border: none;
+        outline: none;
+        position: absolute;
+        bottom: 20px;
+        right: 5%;
+        font-size: 0.8rem;
+      }
+      #reply {
+        width: 90%;
+        height: 300px;
+        margin: 20px auto;
+        overflow-y: scroll; 
+    }
+      .q-and-a {
+        width: 85%; 
+        font-size: 0.83rem;
+        margin-top: 8px;
+        padding: 8px;
+        background-color: #8fff7b;
+        border-radius: 10px;
+        font-family: serif;
+      }
+      .q-and-b {
+        width: 85%; 
+        font-size: 0.83rem;
+        margin-top: 8px;
+        background-color: #cdffc4;
+        padding: 8px;
+        font-family: serif;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <script type="text/python">
+
+      from browser import bind, document, ajax, html
+      import json
+      element = document["reply"]
+
+      @bind("#open-chat", "click")
+      def openChatBot(event):
+          display = document["chat"].style.display
+          document["chat"].style.display = "block" if display == "none" else "none"
+
+      @bind("#send", "click")
+      def sendQuestion(event):
+          question = document["chat-box"].value
+          div = html.DIV(f"{question}")
+          div.class_name = "q-and-a"
+          element <= div
+          askAi(question)
+
+      # add your key
+      GOOGLE_API_KEY = "AIzaSyAiz3ep3Hae-zzryQoUN5iI3CuYnNB-2M8"
+      url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={GOOGLE_API_KEY}"
+      headers = {'Content-Type': 'application/json'}
+
+      def handle_response(req):
+          if req.status == 200:
+              data = req.json
+              # Process the data received from the API
+              div = html.DIV(f"{data["candidates"][0]["content"]["parts"][0]["text"]}")
+              div.class_name = "q-and-b"
+              element <= div
+          else:
+              print('Error:', req.text)
+      def askAi(question):
+          data = {
+              "contents": [{
+                  "role": "user",
+                  "parts": [{"text": f"{question}"}]
+              }],
+              "system_instruction": {
+                  "parts": [{"text": "You are a chat bot for answering cryptogrphy questions , give brief answer."}]
+              },
+          }
+          ajax.post(url, data=json.dumps(data), headers=headers, oncomplete=handle_response)
+    </script>
+
+    <div id="chat">
+      <div id="reply"></div>
+      <input type="text" id="chat-box" />
+      <button id="send">Send</button>
+    </div>
+    <button id="open-chat">🧑‍💻</button>
+  </body>
+</html>
